@@ -32,20 +32,14 @@ img{
 <body>
 <div id="top_inf">
   <span id="user_msg" style="position:absolute;left:3%">
-   <c:if test="${haslogin }">
-	  <a  href="userMsg.do" >${user}</a>
+   <c:if test="${user!=null}">
+	  <a  href="userMsg.do" >${user.username}</a>
+	  <a id="login_or_logout" href="javascript:logout()">注销</a>
 	</c:if>
-	<c:if test="${!haslogin }">
-	    <span>${user}</span>
+	<c:if test="${user==null }">
+	    <span>游客</span>
+	    <a id="login_or_logout" href="javascript:showLogin()">登陆</a>
 	</c:if>
-   <c:if test="${haslogin }">
-  <a id="login_or_logout" href="javascript:logout()">注销</a>
-</c:if>
-  
- <c:if test="${!haslogin }">
-  <a id="login_or_logout" href="javascript:showLogin()">登陆</a>
-    </c:if>
-  
   </span>
    <span id="login_space" style="position:absolute;left:20%;display:none" >
     <table>

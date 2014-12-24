@@ -4,6 +4,15 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	id="WebApp_ID" version="3.0">
 	<display-name>我的导航</display-name>
+	<filter>
+	   <filter-name>userfilter</filter-name>
+	   <filter-class>com.ymxtc.duapp.filter.UserFilter</filter-class>
+	</filter>
+	
+	<filter-mapping>
+	  <filter-name>userfilter</filter-name>
+	  <url-pattern>/*</url-pattern>  
+	</filter-mapping>
 <servlet>
 <servlet-name>main</servlet-name>
 <servlet-class>com.ymxtc.duapp.servlet.MainServlet</servlet-class>
