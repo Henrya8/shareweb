@@ -23,7 +23,6 @@ package com.ymxtc.duapp.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -82,12 +81,8 @@ public class QueryWebsByNameServlet extends HttpServlet
 		User user;
 
 		List<WebCatalog> webCatalogs=null;
-		try
-		{
-
-		
-				user = userDao.getUserByusername(username);
-System.out.println(user.getId());
+	
+				user = userDao.getUserByuserName(username);
 				if (user.getId()==0||user.getPwd().equals(pwd))
 				{
 					webCatalogs = webService.getWebsByUser(user);
@@ -97,14 +92,7 @@ System.out.println(user.getId());
 				}
 		
 			JSONArray jsonArray = JSONArray.fromObject(webCatalogs);
-			System.out.println(jsonArray.toString());
 			pw.print(jsonArray.toString());
-
-		} catch (SQLException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
 	}
 }
