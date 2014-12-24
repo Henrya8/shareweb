@@ -42,9 +42,9 @@ public interface WebDao
 	* @return void: 返回值类型
 	* @throws 
 	*/
-	List<Web> findWebsbyUserId(int id) throws SQLException;
+	List<Web> findWebsbyUserId(int id);
      
-	List<Web>  findWebsByUserIdwithClass(int userid ,String clazz) throws SQLException;
+	List<Web>  findWebsByUserIdwithClass(int userid ,String clazz) ;
 	
-	List<String> findWebClazzByUserId(int userid)  throws SQLException;
+	List<String> findWebClazzByUserId(int userid);
 }

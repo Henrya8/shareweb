@@ -29,6 +29,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * <p>内容摘要: 简要描述本文件的内容，包括主要模块、函数及能的说明</p>
@@ -57,6 +58,8 @@ public class LogoutServlet  extends HttpServlet
 	    	cookie.setMaxAge(0);
 	    	resp.addCookie(cookie);
 	    }
+	    HttpSession  session =req.getSession();
+	    session.setAttribute("user", null);
 	    PrintWriter pw = resp.getWriter();
 	    pw.print("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 	    pw.print("<root>");

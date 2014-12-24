@@ -80,16 +80,9 @@ public class UserFilter implements Filter
 		//设置编码
 		request.setCharacterEncoding("utf-8");
 	    HttpSession 	session = request.getSession();
-	    
 		 //依次从session 及cookie中查找user找出并加入到session
 		 addUsserToSession(request, session);
-		
 		 chain.doFilter(request, response);
-		
-		//request.setAttribute("user",user);
-		//doFilter
-	
-		//检查用户是不是游客不是游客增加
 	}
 
 	/* (非 Javadoc) 
@@ -118,10 +111,15 @@ public class UserFilter implements Filter
 	
 	 //2如果没找到从cookies中找
 	 if(null==user){
-		 user = getUserFromCookie(request.getCookies());
+		 Cookie[]  cookies= request.getCookies();
+		 if(null!=cookies){
+			 user = getUserFromCookie(cookies);
+		 }
+		 //若果不为null  绑定到user
+		 if(null!=user){
+				session.setAttribute("user", user);
+			}
 	 }
-	 //即使是空對像也放入
-	 session.setAttribute("user", user);
 	}
 
 	/**
@@ -141,6 +139,7 @@ public class UserFilter implements Filter
 		String pwd = null;
 		String cookiename;
 		int  mark =0;
+		
 		//循环cookies如果找到username和pwd立即退出循环
 		for(Cookie cookie:cookies){
 			cookiename = cookie.getName();

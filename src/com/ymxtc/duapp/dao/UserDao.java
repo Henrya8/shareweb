@@ -58,6 +58,20 @@ public interface UserDao
 	* @return User: 返回值类型
 	* @throws 
 	*/
-	User getUserByusername(String username)  throws SQLException;
+	User getUserByuserName(String username) ;
+
+
+	
+	/**
+	* @author：ymxtc	        
+	* @date：2014年12月24日
+	* @Description：方法功能描述
+	* @param username
+	* @param pwd
+	* @return: 返回结果描述
+	* @return boolean: 返回值类型
+	* @throws 
+	*/
+	boolean validatUser(String username, String pwd) ;
 	
 }

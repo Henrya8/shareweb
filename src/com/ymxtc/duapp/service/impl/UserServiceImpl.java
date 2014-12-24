@@ -21,8 +21,13 @@
  */
 package com.ymxtc.duapp.service.impl;
 
+import java.sql.SQLException;
+
+import com.ymxtc.duapp.dao.UserDao;
+import com.ymxtc.duapp.dao.impl.UserDaoImpl;
 import com.ymxtc.duapp.dao.vo.User;
 import com.ymxtc.duapp.service.UserService;
+import com.ymxtc.duapp.util.Encrypt;
 
 
 /**
@@ -32,6 +37,19 @@ import com.ymxtc.duapp.service.UserService;
 public class UserServiceImpl implements  UserService
 {
 
+	
+	private UserDao userDao;
+	
+	/** 
+	 * <p>Title: </p> 
+	 * <p>Description: </p>  
+	 */
+
+	public UserServiceImpl()
+	{
+		userDao = new UserDaoImpl();
+	}
+	
 	/* (·Ç Javadoc) 
 	* <p>Title: verifyUser</p> 
 	* <p>Description: </p> 
@@ -44,8 +62,8 @@ public class UserServiceImpl implements  UserService
 	@Override
 	public boolean verifyUser(String username, String pwd)
 	{
-		// TODO Auto-generated method stub
-		return false;
+		
+		return userDao.validatUser(username,pwd);
 	}
 
 	/* (·Ç Javadoc) 
@@ -59,8 +77,7 @@ public class UserServiceImpl implements  UserService
 	@Override
 	public User getUserByUserName(String username)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return userDao.getUserByuserName(username);
 	}
 
 	

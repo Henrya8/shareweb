@@ -71,28 +71,35 @@ public class WebDaoImpl   implements WebDao
 	*/
 	
 	@Override
-	public List<Web> findWebsByUserIdwithClass(int id, String clazz) throws SQLException
+	public List<Web> findWebsByUserIdwithClass(int id, String clazz)
 	{
 	     Connection  conn=  dbc.getConnection();
 	     List<Web>   webs = new ArrayList<Web>();
-	     PreparedStatement   ps =conn.prepareStatement("select id,webname,weburl from web where userid = ? and clazz=?");
-	     ps.setInt(1, id);
-	     ps.setString(2, clazz);
-	     ps.executeQuery();
-	     ResultSet rs =   ps.getResultSet();
-	     
-	     Web  web;
-	     while(rs.next()){
-	    	web = new Web();
-	    	web.setUserId(id);
-	    	web.setClazz(clazz);
-	    	web.setId(rs.getInt(1));
-	    	web.setWebname(rs.getString(2));
-	    	web.setWebUrl(rs.getString(3));
-	    	
-	    	webs.add(web);
-	     }
-	     conn.close();
+	     PreparedStatement   ps =null;
+	    try
+		{
+			ps =conn.prepareStatement("select id,webname,weburl from web where userid = ? and clazz=?");
+			 ps.setInt(1, id);
+			 ps.setString(2, clazz);
+			 ps.executeQuery();
+			 ResultSet rs =   ps.getResultSet();
+			 
+			 Web  web;
+			 while(rs.next()){
+				web = new Web();
+				web.setUserId(id);
+				web.setClazz(clazz);
+				web.setId(rs.getInt(1));
+				web.setWebname(rs.getString(2));
+				web.setWebUrl(rs.getString(3));
+				
+				webs.add(web);
+			 }
+			 conn.close();
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
 		return webs;
 	}
 
@@ -107,24 +114,31 @@ public class WebDaoImpl   implements WebDao
 	*/
 	
 	@Override
-	public List<String> findWebClazzByUserId(int userid) throws SQLException
+	public List<String> findWebClazzByUserId(int userid)
 	{
 		 Connection  conn=  dbc.getConnection();
 	     List<String>   webs = new ArrayList<String>();
-	     PreparedStatement   ps =conn.prepareStatement("select  distinct clazz  from web where userid = ? ");
-	     ps.setInt(1, userid);
-	     ps.executeQuery();
-	     ResultSet rs =   ps.getResultSet();
-	    
-	     String  clazz;
-	     while(rs.next()){
-	    	 clazz = rs.getString(1);
-	    	webs.add(clazz);
-	     }
-	     conn.close();
+	     PreparedStatement   ps=null;
+	     try
+		{
+			ps=conn.prepareStatement("select  distinct clazz  from web where userid = ? ");
+			 ps.setInt(1, userid);
+			 ps.executeQuery();
+			 ResultSet rs =   ps.getResultSet();
+			
+			 String  clazz;
+			 while(rs.next()){
+				 clazz = rs.getString(1);
+				webs.add(clazz);
+			 }
+			 conn.close();
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
 		return webs;
 	}
-public static void main(String[] args) throws Exception
+public static void main(String[] args)
 {
 	WebDaoImpl   d  = new WebDaoImpl();
 	System.out.println(d.findWebClazzByUserId(0));

@@ -31,6 +31,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.omg.CORBA.Request;
 
@@ -69,73 +70,29 @@ public class MainServlet  extends HttpServlet
 	protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException
 	{
-	    Cookie[]  cookies =    request.getCookies();
-	    String userId = null;
-	    String  cookiename=null;
-	    String   pwdId = null;
-	    boolean islogin=false;
-	    
-	    
+	  
 	    WebService webService = new WebServiceImpl();
 	    List<WebCatalog>  webCatalogs =null;
-	    //验证客户端是否有cookie如果有检索出用户信息
-	    if(cookies!=null){
-	    	for(Cookie cookie:cookies){
-	    		cookiename = cookie.getName();
-	    		if(cookiename.equals("userId")){
-	    			userId =  cookie.getValue();
-	    		}
-	    		if(cookiename.equals("pwdId")){
-	    			pwdId= cookie.getValue();
-	    		}
-	    		
-	    		if(userId!=null && pwdId!=null){
-	    			islogin=true;
-	    			break;
-	    		}
-	    	}
-	    }
-	    //如果有检索出用户信息验证用户密码验证成功加载用户配置
-	    if(islogin){
-	    	User  user=null;
-	    	UserDao   userDao = new UserDaoImpl();
-	       try
-		{
-			user = 	userDao.findUserById(Integer.valueOf(userId));
-		} catch (NumberFormatException e)
-		{
-			
-			e.printStackTrace();
-		} catch (SQLException e)
-		{
-		
-			e.printStackTrace();
-		}
-	       
-	       if(user!=null&&user.getPwd().equals(pwdId)){//验证用户名密码成功 
-	    	   webCatalogs = webService.getWebsByUser(user);
+	   HttpSession  session = request.getSession();
+	   User user = (User)session.getAttribute("user");
+	   
+       if(user!=null){
+              webCatalogs = webService.getWebCatalogsByUserId(user.getId());
 				//TODO  加载用户配置配置
-	    	   request.setAttribute("user", user.getUserName());
-		       request.setAttribute("haslogin", true);
-		       Cookie idCookie=new Cookie("userId" ,String.valueOf(user.getId()));
+		       Cookie idCookie=new Cookie("username" ,user.getUserName());
 		       idCookie.setMaxAge(7*24*3600);
-		       Cookie pwdCookie=new Cookie("pwdId" ,user.getUserName());
+		       Cookie pwdCookie=new Cookie("pwd" ,user.getPwd());
 		       pwdCookie.setMaxAge(7*24*3600);
 		       //增加cookie
 		       response.addCookie(pwdCookie);
 		       response.addCookie(idCookie);
-		       request.setAttribute("webCatalogs", webCatalogs);
-		       request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
-		       return;
-			}
-	    }
-	     //其余一切情况加载默认配置
-	  
-	    webCatalogs = webService.getWebCatalogsByUserId("0");
-	      request.setAttribute("webCatalogs", webCatalogs);
-		   request.setAttribute("user", "游客");
-	      request.setAttribute("haslogin",false);
-	      request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
+		      
+       }else{
+    	   webCatalogs = webService.getWebCatalogsByUserId(0);
+       }
+       request.setAttribute("webCatalogs", webCatalogs);
+       request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
+       
 			}
 	
  		

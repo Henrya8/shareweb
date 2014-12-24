@@ -44,7 +44,8 @@ public class User
 	private  Date  registerDate;
 	//最后登陆日期
 	private Date lastLoginDate;
-	
+	//昵称
+	private String nickName;
 	public int getId()
 	{
 		return id;
@@ -100,6 +101,14 @@ public class User
 	public void setLastLoginDate(Date lastLoginDate)
 	{
 		this.lastLoginDate = lastLoginDate;
+	}
+	public String getNickName()
+	{
+		return nickName;
+	}
+	public void setNickName(String nickName)
+	{
+		this.nickName = nickName;
 	}
 	
 }

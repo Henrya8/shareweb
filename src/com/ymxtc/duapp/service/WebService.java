@@ -35,7 +35,7 @@ import com.ymxtc.duapp.service.impl.WebCatalog;
  */
 public   interface WebService
 {
-	List<WebCatalog>  getWebCatalogsByUserId(String  Id);
+	List<WebCatalog>  getWebCatalogsByUserId(int  i);
 
 	
 	/**
@@ -61,4 +61,17 @@ public   interface WebService
 	* @throws 
 	*/
 	List<WebCatalog> getWebsByUser(User user);
+
+
+	
+	/**
+	* @author：ymxtc	        
+	* @date：2014年12月24日
+	* @Description：方法功能描述
+	* @param userName
+	* @return: 返回结果描述
+	* @return List<WebCatalog>: 返回值类型
+	* @throws 
+	*/
+	List<WebCatalog> getWebCatalogsByUserName(String userName);
 }

@@ -51,29 +51,19 @@ public class WebServiceImpl   implements  WebService
 	*/
 	
 	@Override
-	public List<WebCatalog> getWebCatalogsByUserId(String id)
+	public List<WebCatalog> getWebCatalogsByUserId(int id)
 	{
-		int userId = Integer.valueOf(id);
+		
 		WebCatalog  wc ;
 		List<WebCatalog>  webCatalogs= new ArrayList<WebCatalog>();
 		List<String>  clazzs;
-		try
-		{
-			
-			clazzs = webDao.findWebClazzByUserId(userId);
+			clazzs = webDao.findWebClazzByUserId(id);
 			for(String clazz :clazzs){
 				wc = new WebCatalog();
 				wc.setClazz(clazz);
-				wc.setWebs(webDao.findWebsByUserIdwithClass(userId, clazz));
+				wc.setWebs(webDao.findWebsByUserIdwithClass(id, clazz));
 				webCatalogs.add(wc);
 			}
-			
-			
-		} catch (SQLException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		return webCatalogs;
 	}
 
@@ -119,9 +109,7 @@ public class WebServiceImpl   implements  WebService
 	public List<WebCatalog> getWebsByUser(User user)
 	{
 		
-		String userId = String.valueOf(user.getId());
-		
-		return this.getWebCatalogsByUserId(userId);
+		return this.getWebCatalogsByUserId(user.getId());
 	
 	}
 	public static void main(String[] args)
@@ -129,13 +117,24 @@ public class WebServiceImpl   implements  WebService
 		WebServiceImpl  webServiceImpl  =  new WebServiceImpl();
 		User  user = new User();
 		user.setId(0);
-		System.out.println( webServiceImpl.getWebsByUser(user) );
 		ArrayList<String>  as= new ArrayList<String>();
-		as.add("sdasdasd");
-		as.add("sfafasfsa");
+	
 		 JSONArray jsonArray =  JSONArray.fromObject(webServiceImpl.getWebsByUser(user));
 		
-		 System.out.println((jsonArray.toString()));
+	}
+
+	/* (·Ç Javadoc) 
+	* <p>Title: getWebCatalogsByUserName</p> 
+	* <p>Description: </p> 
+	* @param userName
+	* @return 
+	* @see com.ymxtc.duapp.service.WebService#getWebCatalogsByUserName(java.lang.String) 
+	*/
+	
+	@Override
+	public List<WebCatalog> getWebCatalogsByUserName(String userName)
+	{
+		return null;
 	}
 	
 }
